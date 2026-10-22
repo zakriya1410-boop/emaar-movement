@@ -29,19 +29,21 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 <small id="st">جارِ التحميل…</small>
 <div id="ld"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
 <button id="rt" hidden onclick="go()">إعادة المحاولة</button>
+<a id="fb" hidden style="color:#d6b47c;font-size:14px">فتح النسخة الاحتياطية</a>
+<small id="er" style="font-size:11px;opacity:.6;direction:ltr"></small>
 </div>
 <script>
 var EXEC="https://script.google.com/macros/s/AKfycbweGpcCWzOr_YpovnvED9YN0YoQEG4D-H8AOx_Odl72AuHDwMPJW9AZGnA3yI4zbypbMw/exec";
 var q=location.search.slice(1);
 try{if(/(^|&)(k|cap|c|co)=/.test(q))localStorage.setItem("emq",q);else q=localStorage.getItem("emq")||"";}catch(e){}
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
-function fail(m){document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
+function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
 function go(){
  if(!q)return fail("افتح الرابط الخاص بك المرسل من إدارة الحركة مرة واحدة، ثم أضفه للشاشة الرئيسية.");
  document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
- fetch(EXEC+"?raw=1&"+q).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(h){
-  if(!/<html/i.test(h))throw 0;document.open();document.write(h);document.close();
- }).catch(function(){fail("تعذّر الاتصال – تأكد من الإنترنت")});
+ fetch(EXEC+"?raw=1&"+q,{redirect:"follow",credentials:"omit",cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
+  if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
+ }).catch(function(e){fail("تعذّر الاتصال – تأكد من الإنترنت",e)});
 }
 go();
 </script>
