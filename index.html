@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>حركة اعمار</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#0b2545">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="حركة اعمار">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui,"Segoe UI",Tahoma,Arial,sans-serif}
+#sp{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;box-sizing:border-box}
+#sp img{width:112px;height:112px;border-radius:26px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+#sp b{font-size:20px}#sp small{color:#c9d4e6}
+#sp button{background:#b8915a;color:#fff;border:0;border-radius:10px;padding:10px 20px;font:inherit;cursor:pointer}
+.dot{width:8px;height:8px;border-radius:50%;background:#d6b47c;display:inline-block;margin:0 3px;animation:b 1s infinite alternate}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes b{to{opacity:.2;transform:translateY(-4px)}}
+</style>
+</head>
+<body>
+<div id="sp">
+<img src="icon-192.png" alt="اعمار الضيافة الفندقية">
+<b>حركة اعمار</b>
+<small id="st">جارِ التحميل…</small>
+<div id="ld"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<button id="rt" hidden onclick="go()">إعادة المحاولة</button>
+</div>
+<script>
+var EXEC="https://script.google.com/macros/s/AKfycbweGpcCWzOr_YpovnvED9YN0YoQEG4D-H8AOx_Odl72AuHDwMPJW9AZGnA3yI4zbypbMw/exec";
+var q=location.search.slice(1);
+try{if(/(^|&)(k|cap|c|co)=/.test(q))localStorage.setItem("emq",q);else q=localStorage.getItem("emq")||"";}catch(e){}
+if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
+function fail(m){document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
+function go(){
+ if(!q)return fail("افتح الرابط الخاص بك المرسل من إدارة الحركة مرة واحدة، ثم أضفه للشاشة الرئيسية.");
+ document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
+ fetch(EXEC+"?raw=1&"+q).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(h){
+  if(!/<html/i.test(h))throw 0;document.open();document.write(h);document.close();
+ }).catch(function(){fail("تعذّر الاتصال – تأكد من الإنترنت")});
+}
+go();
+</script>
+</body>
+</html>
