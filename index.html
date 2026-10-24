@@ -36,10 +36,10 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 <script>
 var EXEC="https://script.google.com/macros/s/AKfycbweGpcCWzOr_YpovnvED9YN0YoQEG4D-H8AOx_Odl72AuHDwMPJW9AZGnA3yI4zbypbMw/exec";
 var q=location.search.slice(1);
-try{if(/(^|&)(k|cap|c|co)=/.test(q))localStorage.setItem("emq",q);else q=localStorage.getItem("emq")||"";}catch(e){}
+try{if(/(^|&)(k|cap|c|co|s)=/.test(q))localStorage.setItem("emq",q);else q=localStorage.getItem("emq")||"";}catch(e){}
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
-function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(k|cap|c|co)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ الرابط كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emq",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
+function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(k|cap|c|co|s)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ الرابط كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emq",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
 function go(){
  if(!q){document.getElementById("st").textContent="أول مرة فقط: الصق رابطك الخاص المرسل من إدارة الحركة ثم اضغط دخول";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
  document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
