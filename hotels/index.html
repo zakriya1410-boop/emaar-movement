@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تشغيل الفنادق – اعمار</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="icon" type="image/png" href="../icon-192.png">
+<meta name="theme-color" content="#0b2545">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="تشغيل الفنادق">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui,"Segoe UI",Tahoma,Arial,sans-serif}
+#sp{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;box-sizing:border-box}
+#sp img{width:112px;height:112px;border-radius:26px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+#sp b{font-size:20px}#sp small{color:#c9d4e6}
+#sp button{background:#b8915a;color:#fff;border:0;border-radius:10px;padding:10px 20px;font:inherit;cursor:pointer}
+.dot{width:8px;height:8px;border-radius:50%;background:#d6b47c;display:inline-block;margin:0 3px;animation:b 1s infinite alternate}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes b{to{opacity:.2;transform:translateY(-4px)}}
+</style>
+</head>
+<body>
+<div id="sp">
+<img src="../icon-192.png" alt="اعمار الضيافة الفندقية">
+<b>طلبات تشغيل الفنادق</b><small style="color:#d6b47c">إعمار الضيافة الفندقية · إدارة الحركة والنقل</small>
+<small id="st">جارِ التحميل…</small>
+<div id="ld"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<div id="ln" hidden style="width:100%;max-width:340px;display:flex;flex-direction:column;gap:8px"><input id="li" dir="ltr" placeholder="الصق رابطك هنا" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit"><button onclick="useLink()">دخول</button></div>
+<button id="rt" hidden onclick="go()">إعادة المحاولة</button>
+<a id="fb" hidden style="color:#d6b47c;font-size:14px">فتح النسخة الاحتياطية</a>
+<small id="er" style="font-size:11px;opacity:.6;direction:ltr"></small>
+</div>
+<script>
+var EXEC="https://script.google.com/macros/s/AKfycbweGpcCWzOr_YpovnvED9YN0YoQEG4D-H8AOx_Odl72AuHDwMPJW9AZGnA3yI4zbypbMw/exec";
+var q=location.search.slice(1);
+try{if(/(^|&)(h)=/.test(q))localStorage.setItem("emh",q);else q=localStorage.getItem("emh")||"";}catch(e){}
+if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
+function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
+function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(h)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ رابط الفندق كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emh",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
+function go(){
+ if(!q){document.getElementById("st").textContent="أول مرة فقط: الصق رابطك الخاص المرسل من إدارة الحركة ثم اضغط دخول";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
+ document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
+ fetch(EXEC+"?raw=1&"+q,{redirect:"follow",credentials:"omit",cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
+  if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
+ }).catch(function(e){fail("تعذّر الاتصال – تأكد من الإنترنت",e)});
+}
+go();
+</script>
+</body>
+</html>
