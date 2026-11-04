@@ -17,6 +17,7 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 #sp{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;box-sizing:border-box}
 #sp img{width:112px;height:112px;border-radius:26px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
 #sp b{font-size:20px}#sp small{color:#c9d4e6}
+#ln:not([hidden]){display:flex}
 #sp button{background:#b8915a;color:#fff;border:0;border-radius:10px;padding:10px 20px;font:inherit;cursor:pointer}
 .dot{width:8px;height:8px;border-radius:50%;background:#d6b47c;display:inline-block;margin:0 3px;animation:b 1s infinite alternate}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes b{to{opacity:.2;transform:translateY(-4px)}}
@@ -28,7 +29,7 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 <b>حركة اعمار</b>
 <small id="st">جارِ التحميل…</small>
 <div id="ld"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-<div id="ln" hidden style="width:100%;max-width:340px;display:flex;flex-direction:column;gap:8px"><input id="li" dir="ltr" placeholder="الصق رابطك هنا" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit"><button onclick="useLink()">دخول</button></div>
+<div id="ln" hidden style="width:100%;max-width:340px;flex-direction:column;gap:8px"><input id="li" dir="ltr" placeholder="الصق رابطك هنا" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit"><button onclick="useLink()">دخول</button></div>
 <button id="rt" hidden onclick="go()">إعادة المحاولة</button>
 <a id="fb" hidden style="color:#d6b47c;font-size:14px">فتح النسخة الاحتياطية</a>
 <small id="er" style="font-size:11px;opacity:.6;direction:ltr"></small>
@@ -40,12 +41,13 @@ try{if(/(^|&)(k|cap|c|co|s|h)=/.test(q))localStorage.setItem("emq",q);else q=loc
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
 function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(k|cap|c|co|s|h)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ الرابط كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emq",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
+var tries=0;
 function go(){
  if(!q){document.getElementById("st").textContent="أول مرة فقط: الصق رابطك الخاص المرسل من إدارة الحركة ثم اضغط دخول";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
- document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
+ if(!tries)document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
  fetch(EXEC+"?raw=1&"+q,{redirect:"follow",credentials:"omit",cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
   if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
- }).catch(function(e){fail("تعذّر الاتصال – تأكد من الإنترنت",e)});
+ }).catch(function(e){if(++tries<4){document.getElementById("st").textContent="جارِ إعادة المحاولة… ("+tries+")";setTimeout(go,2500);return}tries=0;fail("تعذّر الاتصال – تأكد من الإنترنت ثم اضغط إعادة المحاولة",e)});
 }
 go();
 </script>
