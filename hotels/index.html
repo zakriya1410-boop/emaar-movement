@@ -38,6 +38,7 @@ var EXEC="https://script.google.com/macros/s/AKfycbweGpcCWzOr_YpovnvED9YN0YoQEG4
 var q=location.search.slice(1);
 try{if(/(^|&)(h)=/.test(q))localStorage.setItem("emh",q);else q=localStorage.getItem("emh")||"";}catch(e){}
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
+var MOVED=/github\.io$/.test(location.hostname);if(MOVED)location.replace("https://hotels.emaarharaka.com/hotels/"+(q?"?"+q:""));
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
 function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(h)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ رابط الفندق كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emh",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
 function go(){
@@ -47,7 +48,7 @@ function go(){
   if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
  }).catch(function(e){fail("تعذّر الاتصال – تأكد من الإنترنت",e)});
 }
-go();
+if(!MOVED)go();
 </script>
 </body>
 </html>

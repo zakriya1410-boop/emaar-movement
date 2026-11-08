@@ -39,6 +39,7 @@ var EXEC="https://script.google.com/macros/s/AKfycbweGpcCWzOr_YpovnvED9YN0YoQEG4
 var q=location.search.slice(1);
 try{if(/(^|&)(k|cap|c|co|s|h)=/.test(q))localStorage.setItem("emq",q);else q=localStorage.getItem("emq")||"";}catch(e){}
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
+var MOVED=/github\.io$/.test(location.hostname);if(MOVED)location.replace("https://app.emaarharaka.com/"+(q?"?"+q:""));
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
 function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(k|cap|c|co|s|h)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ الرابط كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emq",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
 var tries=0;
@@ -49,7 +50,7 @@ function go(){
   if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
  }).catch(function(e){if(++tries<4){document.getElementById("st").textContent="جارِ إعادة المحاولة… ("+tries+")";setTimeout(go,2500);return}tries=0;fail("تعذّر الاتصال – تأكد من الإنترنت ثم اضغط إعادة المحاولة",e)});
 }
-go();
+if(!MOVED)go();
 </script>
 </body>
 </html>
