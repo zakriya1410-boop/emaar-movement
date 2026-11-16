@@ -41,12 +41,14 @@ if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
 var MOVED=/github\.io$/.test(location.hostname);if(MOVED)location.replace("https://hotels.emaarharaka.com/hotels/"+(q?"?"+q:""));
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
 function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(h)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ رابط الفندق كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emh",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
+var tries=0;
 function go(){
  if(!q){document.getElementById("st").textContent="أول مرة فقط: الصق رابطك الخاص المرسل من إدارة الحركة ثم اضغط دخول";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
- document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
- fetch(EXEC+"?raw=1&"+q,{redirect:"follow",credentials:"omit",cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
-  if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
- }).catch(function(e){fail("تعذّر الاتصال – تأكد من الإنترنت",e)});
+ if(!tries)document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
+ var ac=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(ac)ac.abort()},25000);
+ fetch(EXEC+"?raw=1&"+q,{redirect:"follow",credentials:"omit",cache:"no-store",signal:ac?ac.signal:undefined}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
+  clearTimeout(tm);if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
+ }).catch(function(e){clearTimeout(tm);if(++tries<4){document.getElementById("st").textContent="جارِ إعادة المحاولة… ("+tries+")";setTimeout(go,2500);return}tries=0;fail("تعذّر الاتصال – تأكد من الإنترنت ثم اضغط إعادة المحاولة",e)});
 }
 if(!MOVED)go();
 </script>
