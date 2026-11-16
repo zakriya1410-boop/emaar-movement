@@ -46,10 +46,14 @@ var tries=0;
 function go(){
  if(!q){document.getElementById("st").textContent="أول مرة فقط: الصق رابطك الخاص المرسل من إدارة الحركة ثم اضغط دخول";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
  if(!tries)document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
- var ac=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(ac)ac.abort()},25000);
- fetch(EXEC+"?raw=1&"+q,{redirect:"follow",credentials:"omit",cache:"no-store",signal:ac?ac.signal:undefined}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
-  clearTimeout(tm);if(!/<html/i.test(h))throw new Error("bad response");document.open();document.write(h);document.close();
- }).catch(function(e){clearTimeout(tm);if(++tries<4){document.getElementById("st").textContent="جارِ إعادة المحاولة… ("+tries+")";setTimeout(go,2500);return}tries=0;fail("تعذّر الاتصال – تأكد من الإنترنت ثم اضغط إعادة المحاولة",e)});
+ var done=false,C=[],started=0,failed=0,lastE=null,tm,t2;
+ function end(){clearTimeout(tm);clearTimeout(t2);C.forEach(function(c){try{c&&c.abort()}catch(x){}})}
+ function bad(e){if(done)return;lastE=e;failed++;if(started<2){clearTimeout(t2);one();return}if(failed>=started){done=true;end();if(++tries<4){document.getElementById("st").textContent="جارِ إعادة المحاولة… ("+tries+")";setTimeout(go,1500);return}tries=0;fail("تعذّر الاتصال – تأكد من الإنترنت ثم اضغط إعادة المحاولة",lastE)}}
+ function one(){started++;var ac=window.AbortController?new AbortController():null;C.push(ac);
+  fetch(EXEC+"?raw=1&"+q+(started>1?"&_r="+Date.now():""),{redirect:"follow",credentials:"omit",cache:"no-store",signal:ac?ac.signal:undefined}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(function(h){
+   if(done)return;if(!/<html/i.test(h))throw new Error("bad response");done=true;end();document.open();document.write(h);document.close();
+  }).catch(bad)}
+ one();t2=setTimeout(function(){if(!done&&started<2)one()},8000);tm=setTimeout(function(){if(!done)end()},25000);
 }
 if(!MOVED)go();
 </script>
