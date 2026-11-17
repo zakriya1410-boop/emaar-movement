@@ -32,6 +32,13 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 #sp button{background:#b8915a;color:#fff;border:0;border-radius:10px;padding:10px 20px;font:inherit;cursor:pointer}
 .dot{width:8px;height:8px;border-radius:50%;background:#d6b47c;display:inline-block;margin:0 3px;animation:b 1s infinite alternate}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes b{to{opacity:.2;transform:translateY(-4px)}}
+#about{max-width:960px;margin:0 auto;padding:32px 16px 48px;box-sizing:border-box;text-align:center}
+#about h2{font-size:24px;margin:0 0 10px;color:#d6b47c}#about>p{color:#c9d4e6;line-height:1.8;margin:0 0 18px;font-size:15px}
+#about figure{margin:0 0 22px}#about img{width:100%;height:auto;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.35);display:block;background:#123}
+#about figcaption{color:#c9d4e6;font-size:13px;margin-top:8px}
+#about .dl{display:inline-block;background:#b8915a;color:#fff;text-decoration:none;border-radius:10px;padding:12px 22px;margin:4px 0 22px;font-weight:700}
+#about .ft{color:#8fa0b8;font-size:12px}
+.more{color:#d6b47c;font-size:14px;text-decoration:none;margin-top:6px}
 </style>
 </head>
 <body>
@@ -41,15 +48,39 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 <small id="st">جارِ التحميل…</small>
 <div id="ld"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
 <div id="ln" hidden style="width:100%;max-width:340px;flex-direction:column;gap:8px"><input id="li" dir="ltr" placeholder="الصق رابطك هنا" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit"><button onclick="useLink()">دخول</button></div>
-<a href="/emaar-platform.pdf" download style="color:#d6b47c;font-size:14px;text-decoration:underline">تحميل العرض التعريفي للمنصة (PDF)</a>
+<a class="more" id="mo" href="#about">تعرّف على المنصة – شاهد العرض التعريفي ↓</a>
 <button id="rt" hidden onclick="go()">إعادة المحاولة</button>
 <a id="fb" hidden style="color:#d6b47c;font-size:14px">فتح النسخة الاحتياطية</a>
 <small id="er" style="font-size:11px;opacity:.6;direction:ltr"></small>
 </div>
+<section id="about">
+<h2>العرض التعريفي للمنصة</h2>
+<p>حركة اعمار منصة متكاملة لإدارة الحركة والنقل في شركة إعمار الضيافة الفندقية: طلبات الفنادق، وإسناد المهام للكباتن وشركات النقل، وأوامر التشغيل، والنقل الثقيل، وأسطول السيارات، والعهدة والفواتير، في مكان واحد.</p>
+<a class="dl" href="/emaar-platform.pdf" download>تحميل العرض كاملاً (PDF)</a>
+<figure><a href="deck/s01.webp" target="_blank"><img src="deck/s01.webp" width="1280" height="720" loading="eager" alt="منصة إدارة الحركة – إعمار الضيافة الفندقية"></a><figcaption>1. منصة إدارة الحركة – إعمار الضيافة الفندقية</figcaption></figure>
+<figure><a href="deck/s02.webp" target="_blank"><img src="deck/s02.webp" width="1280" height="720" loading="lazy" alt="من العمل الورقي إلى منصة واحدة"></a><figcaption>2. من العمل الورقي إلى منصة واحدة</figcaption></figure>
+<figure><a href="deck/s03.webp" target="_blank"><img src="deck/s03.webp" width="1280" height="720" loading="lazy" alt="لكل طرف رابطه الخاص وصلاحياته"></a><figcaption>3. لكل طرف رابطه الخاص وصلاحياته</figcaption></figure>
+<figure><a href="deck/s04.webp" target="_blank"><img src="deck/s04.webp" width="1280" height="720" loading="lazy" alt="دورة المهمة: من الطلب إلى الإغلاق"></a><figcaption>4. دورة المهمة: من الطلب إلى الإغلاق</figcaption></figure>
+<figure><a href="deck/s05.webp" target="_blank"><img src="deck/s05.webp" width="1280" height="720" loading="lazy" alt="أمر تشغيل رسمي لكل مهمة"></a><figcaption>5. أمر تشغيل رسمي لكل مهمة</figcaption></figure>
+<figure><a href="deck/s06.webp" target="_blank"><img src="deck/s06.webp" width="1280" height="720" loading="lazy" alt="النقل الثقيل للفنادق"></a><figcaption>6. النقل الثقيل للفنادق</figcaption></figure>
+<figure><a href="deck/s07.webp" target="_blank"><img src="deck/s07.webp" width="1280" height="720" loading="lazy" alt="نوعان واضحان لطلب الفندق: ترحيل من الفندق أو طلب من المستودع"></a><figcaption>7. نوعان واضحان لطلب الفندق: ترحيل من الفندق أو طلب من المستودع</figcaption></figure>
+<figure><a href="deck/s08.webp" target="_blank"><img src="deck/s08.webp" width="1280" height="720" loading="lazy" alt="اعتماد قبل التنفيذ، وموافقة المالية عند الحاجة"></a><figcaption>8. اعتماد قبل التنفيذ، وموافقة المالية عند الحاجة</figcaption></figure>
+<figure><a href="deck/s09.webp" target="_blank"><img src="deck/s09.webp" width="1280" height="720" loading="lazy" alt="أسطول سيارات المجموعة"></a><figcaption>9. أسطول سيارات المجموعة</figcaption></figure>
+<figure><a href="deck/s10.webp" target="_blank"><img src="deck/s10.webp" width="1280" height="720" loading="lazy" alt="لا يتحدث شيء في النظام قبل اعتماد مدير الحركة"></a><figcaption>10. لا يتحدث شيء في النظام قبل اعتماد مدير الحركة</figcaption></figure>
+<figure><a href="deck/s11.webp" target="_blank"><img src="deck/s11.webp" width="1280" height="720" loading="lazy" alt="عقود الحج وإذن الصرف من المستودع"></a><figcaption>11. عقود الحج وإذن الصرف من المستودع</figcaption></figure>
+<figure><a href="deck/s12.webp" target="_blank"><img src="deck/s12.webp" width="1280" height="720" loading="lazy" alt="العهدة وكشوف الفواتير داخل المنصة"></a><figcaption>12. العهدة وكشوف الفواتير داخل المنصة</figcaption></figure>
+<figure><a href="deck/s13.webp" target="_blank"><img src="deck/s13.webp" width="1280" height="720" loading="lazy" alt="التنبيهات والمتابعة: لا يفوت أي طلب"></a><figcaption>13. التنبيهات والمتابعة: لا يفوت أي طلب</figcaption></figure>
+<figure><a href="deck/s14.webp" target="_blank"><img src="deck/s14.webp" width="1280" height="720" loading="lazy" alt="سيرفر سحابي خاص بالمنصة"></a><figcaption>14. سيرفر سحابي خاص بالمنصة</figcaption></figure>
+<figure><a href="deck/s15.webp" target="_blank"><img src="deck/s15.webp" width="1280" height="720" loading="lazy" alt="الأمان والسرية: بيانات محمية وصلاحيات محددة"></a><figcaption>15. الأمان والسرية: بيانات محمية وصلاحيات محددة</figcaption></figure>
+<figure><a href="deck/s16.webp" target="_blank"><img src="deck/s16.webp" width="1280" height="720" loading="lazy" alt="الختام: كل عمليات النقل في مكان واحد"></a><figcaption>16. الختام: كل عمليات النقل في مكان واحد</figcaption></figure>
+<a class="dl" href="/emaar-platform.pdf" download>تحميل العرض كاملاً (PDF)</a>
+<p class="ft">إعمار الضيافة الفندقية · إدارة الحركة</p>
+</section>
 <script>
 var EXEC="https://emaar-movement.zakriya1410.workers.dev/exec";
 var q=location.search.slice(1);
 try{if(/(^|&)(k|cap|c|co|s|h|fn)=/.test(q))localStorage.setItem("emq",q);else q=localStorage.getItem("emq")||"";}catch(e){}
+if(q){var ab=document.getElementById("about"),mo=document.getElementById("mo");if(ab)ab.hidden=true;if(mo)mo.hidden=true}
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
 var MOVED=/github\.io$/.test(location.hostname);if(MOVED)location.replace("https://app.emaarharaka.com/"+(q?"?"+q:""));
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
