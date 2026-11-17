@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /$
+Allow: /emaar-platform.pdf
 Disallow: /*?
 Disallow: /hotels/
 Sitemap: https://app.emaarharaka.com/sitemap.xml
