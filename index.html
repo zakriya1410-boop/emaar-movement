@@ -28,7 +28,7 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 #sp{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;box-sizing:border-box}
 #sp img{width:112px;height:112px;border-radius:26px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
 #sp b{font-size:20px}#sp small{color:#c9d4e6}
-#ln:not([hidden]){display:flex}
+#ln:not([hidden]),#lk:not([hidden]){display:flex}
 #sp button{background:#b8915a;color:#fff;border:0;border-radius:10px;padding:10px 20px;font:inherit;cursor:pointer}
 .dot{width:8px;height:8px;border-radius:50%;background:#d6b47c;display:inline-block;margin:0 3px;animation:b 1s infinite alternate}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes b{to{opacity:.2;transform:translateY(-4px)}}
@@ -47,7 +47,7 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 <h1 style="font-size:20px;margin:0">حركة اعمار</h1><p style="margin:-6px 0 0;color:#c9d4e6;font-size:13px">منصة إدارة الحركة والنقل · اعمار الضيافة الفندقية</p>
 <small id="st">جارِ التحميل…</small>
 <div id="ld"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-<div id="ln" hidden style="width:100%;max-width:340px;flex-direction:column;gap:8px"><input id="li" dir="ltr" placeholder="الصق رابطك هنا" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit"><button onclick="useLink()">دخول</button></div>
+<div id="ln" hidden style="width:100%;max-width:340px;flex-direction:column;gap:8px"><form id="lf" onsubmit="event.preventDefault();doLogin()" style="display:flex;flex-direction:column;gap:8px"><input id="lu" autocomplete="username" dir="ltr" placeholder="اسم المستخدم" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit;text-align:center"><input id="lp" type="password" autocomplete="current-password" dir="ltr" placeholder="كلمة المرور" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit;text-align:center"><button id="lb" type="submit">دخول</button></form><a href="#" onclick="event.preventDefault();var b=document.getElementById('lk');b.hidden=!b.hidden" style="color:#c9d4e6;font-size:13px">أو الدخول بالرابط الخاص</a><div id="lk" hidden style="flex-direction:column;gap:8px"><input id="li" dir="ltr" placeholder="الصق رابطك هنا" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit"><button onclick="useLink()">دخول بالرابط</button></div></div>
 <a class="more" id="mo" href="#about">تعرّف على المنصة – شاهد العرض التعريفي ↓</a>
 <button id="rt" hidden onclick="go()">إعادة المحاولة</button>
 <a id="fb" hidden style="color:#d6b47c;font-size:14px">فتح النسخة الاحتياطية</a>
@@ -84,10 +84,13 @@ if(q){var ab=document.getElementById("about"),mo=document.getElementById("mo");i
 if(q&&!location.search){try{history.replaceState(null,"","?"+q)}catch(e){}}
 var MOVED=/github\.io$/.test(location.hostname);if(MOVED)location.replace("https://app.emaarharaka.com/"+(q?"?"+q:""));
 function fail(m,e){try{document.getElementById("er").textContent=e?String(e&&e.message||e):"";var f=document.getElementById("fb");if(q){f.href=EXEC+"?"+q;f.hidden=false}}catch(x){}document.getElementById("st").textContent=m;document.getElementById("ld").hidden=true;document.getElementById("rt").hidden=false}
+function doLogin(){var u=document.getElementById("lu").value.trim(),p=document.getElementById("lp").value,b=document.getElementById("lb"),st=document.getElementById("st");if(!u||!p){st.textContent="اكتب اسم المستخدم وكلمة المرور";return}b.disabled=true;b.textContent="جارِ الدخول…";
+ fetch(EXEC.replace(/\/exec$/,"/api"),{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({auth:{},action:"login",data:{user:u,pass:p},rid:Date.now().toString(36)+Math.random().toString(36).slice(2,8)})}).then(function(r){return r.json()}).then(function(r){if(typeof r=="string")r=JSON.parse(r);b.disabled=false;b.textContent="دخول";if(!r||r.__err||!r.q){st.textContent=(r&&r.__err)||"تعذّر الدخول";return}
+  q=r.q;try{localStorage.setItem("emq",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;var ab=document.getElementById("about"),mo=document.getElementById("mo");if(ab)ab.hidden=true;if(mo)mo.hidden=true;go()}).catch(function(){b.disabled=false;b.textContent="دخول";st.textContent="تعذّر الاتصال – تأكد من الإنترنت"})}
 function useLink(){var v=document.getElementById("li").value.trim(),i=v.indexOf("?"),x=i>=0?v.slice(i+1):v;if(!/(^|&)(k|cap|c|co|s|h|fn)=/.test(x)){document.getElementById("st").textContent="الرابط غير صحيح – انسخ الرابط كاملاً من رسالة إدارة الحركة";return}q=x;try{localStorage.setItem("emq",q)}catch(e){}try{history.replaceState(null,"","?"+q)}catch(e){}document.getElementById("ln").hidden=true;go()}
 var tries=0;
 function go(){
- if(!q){document.getElementById("st").textContent="أول مرة فقط: الصق رابطك الخاص المرسل من إدارة الحركة ثم اضغط دخول";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
+ if(!q){document.getElementById("st").textContent="سجّل الدخول باسم المستخدم وكلمة المرور";document.getElementById("ld").hidden=true;document.getElementById("ln").hidden=false;return}
  if(!tries)document.getElementById("st").textContent="جارِ التحميل…";document.getElementById("ld").hidden=false;document.getElementById("rt").hidden=true;
  var done=false,C=[],started=0,failed=0,lastE=null,tm,t2;
  function end(){clearTimeout(tm);clearTimeout(t2);C.forEach(function(c){try{c&&c.abort()}catch(x){}})}
