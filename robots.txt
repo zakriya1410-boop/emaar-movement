@@ -3,4 +3,5 @@ Allow: /$
 Allow: /emaar-platform.pdf
 Disallow: /*?
 Disallow: /hotels/
+Disallow: /app/
 Sitemap: https://app.emaarharaka.com/sitemap.xml
