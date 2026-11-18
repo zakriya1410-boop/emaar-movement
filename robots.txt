@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /$
 Allow: /emaar-platform.pdf
+Allow: /privacy.html
 Disallow: /*?
 Disallow: /hotels/
 Disallow: /app/
