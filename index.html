@@ -25,7 +25,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui,"Segoe UI",Tahoma,Arial,sans-serif}
-#sp{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;box-sizing:border-box}
+#sp{min-height:calc(100% - 110px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;box-sizing:border-box}
 #sp img{width:112px;height:112px;border-radius:26px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
 #sp b{font-size:20px}#sp small{color:#c9d4e6}
 #ln:not([hidden]),#lk:not([hidden]){display:flex}
@@ -35,8 +35,8 @@ html,body{margin:0;height:100%;background:#0b2545;color:#fff;font:16px system-ui
 #about{max-width:960px;margin:0 auto;padding:32px 16px 48px;box-sizing:border-box;text-align:center}
 #iv{width:fit-content;max-width:340px;position:relative;margin:0 auto}#iv[hidden]{display:none}#iv video{width:auto;max-width:100%;max-height:70vh;border-radius:16px;background:#071a33;box-shadow:0 8px 28px rgba(0,0,0,.35);display:block;object-fit:contain}
 #ivb{background:transparent!important;border:1px solid #d6b47c!important;color:#d6b47c!important;font-size:14px!important;padding:9px 18px!important;margin-top:4px}
-#ftr{position:fixed;left:0;right:0;bottom:0;z-index:5;text-align:center;background:#0b2545;padding:10px 0 calc(10px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.12)}#ftr[hidden]{display:none}body{padding-bottom:calc(46px + env(safe-area-inset-bottom))}#ftr a{color:#d6b47c;text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.5px}
-#about{padding:8px 16px 4px!important}#about p{font-size:13px!important;margin:0 0 6px!important}
+#ftr{text-align:center;background:#0b2545;padding:10px 0 calc(10px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.12)}#ftr[hidden]{display:none}#ftr a{color:#d6b47c;text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.5px}
+#about{padding:8px 16px 12px!important}#about p{font-size:13px!important;margin:0!important;line-height:1.9}
 #about h2{font-size:24px;margin:0 0 10px;color:#d6b47c}#about>p{color:#c9d4e6;line-height:1.8;margin:0 0 18px;font-size:15px}
 #about figure{margin:0 0 22px}#about img{width:100%;height:auto;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.35);display:block;background:#123}
 #about figcaption{color:#c9d4e6;font-size:13px;margin-top:8px}
